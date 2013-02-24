@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/mvc 
+	   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd" >
+			
+	 <context:component-scan base-package="co.angellabs.profileservices.service" /> 
+	  
+ 	<context:annotation-config /> 
+ 	
+ 	<mvc:annotation-driven />
+	
+	<mvc:resources mapping="/resources/**" location="/resources/" />  
+	 
+ 	<!-- <context:property-placeholder location="/WEB-INF/hibernate.properties"/> -->
+	
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> -->
+	
+	<bean id="profileDataSource"
+      class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+      p:driverClassName="com.mysql.jdbc.Driver"
+      p:url="jdbc:mysql://localhost:3306/angellabsdb"
+      p:username="root"
+      p:password="root"/>
+      
+  	<bean id="profileSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="profileDataSource"/>
+		<property name="mappingResources">
+			<list>
+					<value>users.hbm.xml</value>
+					<value>company.hbm.xml</value>
+					<value>roles.hbm.xml</value>
+					<value>usercompanyroles.hbm.xml</value>
+					<value>useradditionalinfo.hbm.xml</value>
+					
+					<!-- <value>message.hbm.xml</value>		 -->	
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="profileSessionFactory" />
+	</bean>
+	    
+	      <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="profileDataSource"/>
+          
+       
+          
+	<bean id="defaultUserDetailsService" class="co.angellabs.profileservices.service.DefaultUserDetailsService"/>
+	<bean id="defaultUserDAO" class="co.angellabs.profileservices.dao.impl.DefaultUserDAOImpl"/>
+	
+	<bean id="userBasicServices" class="co.angellabs.profileservices.service.impl.UserBasicServicesImpl"/>
+	<bean id="userBasicServiceDAO" class="co.angellabs.profileservices.dao.impl.UserBasicServicesDAOImpl"/>
+	
+	<!-- activty service related beans -->
+	
+	<bean id="userActivityServices"
+		class="co.angellabs.profileservices.service.impl.UserActivityServicesImpl" />
+	<bean id="userActivityServicesDAO"
+		class="co.angellabs.profileservices.dao.impl.UserActivityServicesDAOImpl" />
+    
+    </beans>
+	

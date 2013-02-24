@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+
+
+	<class name="co.angellabs.entities.dto.Message"  table="messagedetailsmaster">
+		<id name="messageId" >
+			<generator class="increment" >				
+			</generator>
+		</id>		
+		  <property name="content">
+        <column name="messagedesc" />
+        </property> 
+        <property name="subject"/>
+      <property name="fromAddress" /> 
+	  <property name="toAddress" />
+		<property name="date" />
+	</class>
+</hibernate-mapping>

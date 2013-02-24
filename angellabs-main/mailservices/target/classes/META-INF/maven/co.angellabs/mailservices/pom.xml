@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>co.angellabs</groupId>
+    <artifactId>angellabs-main</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>mailservices</artifactId>
+  <name>mail</name>
+  <description>mail services</description>
+  <version>0.0.1-SNAPSHOT</version>
+ <groupId>co.angellabs</groupId>
+ 
+<dependencies>
+
+<dependency>
+<groupId>co.angellabs</groupId>
+    <artifactId>angellabs-entities</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+  <dependency>
+   <groupId>co.angellabs</groupId>
+    <artifactId>profileservices</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+
+<dependency>
+<groupId>co.angellabs</groupId>
+    <artifactId>framework</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+ <dependency>
+	<groupId>org.apache.velocity</groupId>
+	<artifactId>velocity</artifactId>
+	<version>1.7</version>
+</dependency>
+            
+<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<version>1.4.5</version>
+</dependency>
+  <dependency>
+	<groupId>javax.activation</groupId>
+	<artifactId>activation</artifactId>
+	<version>1.1.1</version>
+</dependency>
+
+</dependencies>
+
+	
+</project>
+

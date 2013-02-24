@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                            http://www.springframework.org/schema/mvc 
+	   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+     <context:component-scan base-package="co.angellabs" />
+    
+     <context:annotation-config /> 
+ 	
+ 	 <mvc:annotation-driven />
+ 	 
+     <mvc:resources mapping="/resources/**" location="/resources/" />
+     
+     
+    <!-- Edit 'mail.properties' to set a valid user and password for the mail sender. -->
+    
+    <context:property-placeholder location="classpath:/mail.properties" />
+    
+    
+    <bean id="mailDataSource"
+      class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+      p:driverClassName="com.mysql.jdbc.Driver"
+      p:url="jdbc:mysql://localhost:3306/angellabsdb"
+      p:username="root"
+      p:password="root"/>
+      
+  	<bean id="mailSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="mailDataSource"/>
+		<property name="mappingResources">
+			<list>
+					<!-- <value>users.hbm.xml</value> -->
+					<value>message.hbm.xml</value>	
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mailSessionFactory" />
+	</bean>    
+    
+   <!-- Mail sender configured for using Gmail -->
+  <bean id="baseMailService" class="co.angellabs.mailservices.service.impl.MailManager"/>
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"
+          p:host="smtp.gmail.com"
+
+          p:username="sameekshaangellabs@gmail.com"
+          p:password="admin@123" >
+          
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>  
+
+	
+ 
+  
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>
+      
+    <bean id="userMessageServices" class="co.angellabs.mailservices.service.impl.UserMessageServicesImpl"/>
+    <bean id="userMessageServicesDAO" class="co.angellabs.mailservices.dao.impl.UserMessageServicesDAOImpl"/>
+	
+   <!--  <bean id="mailManager" class="co.angelabs.mailservices.service.Impl">
+	<property name="mailSender" ref="mailSender" />
+</bean>  -->  
+</beans>
